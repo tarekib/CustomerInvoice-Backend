@@ -4,10 +4,10 @@ namespace CustomerInvoicesApp.Data
 {
     public interface IUnitOfWork : IDisposable
     {
-        ICustomerRepository Customers { get; }
+        ICustomerRepository CustomerRepository { get; }
 
-        IInvoiceRepository Invoices { get; }
+        IInvoiceRepository InvoiceRepository { get; }
 
-        int Complete();
+        int Save();
     }
 }

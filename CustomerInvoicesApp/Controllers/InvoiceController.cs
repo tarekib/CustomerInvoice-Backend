@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using CustomerInvoicesApp.Data;
 using CustomerInvoicesApp.DTOs;
-using CustomerInvoicesApp.Models;
+using CustomerInvoicesApp.Managers;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace CustomerInvoicesApp.Controllers
 {
@@ -12,31 +11,27 @@ namespace CustomerInvoicesApp.Controllers
     public class InvoiceController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-
         private readonly IMapper _mapper;
+        private readonly InvoiceManager _invoiceManager;
 
         public InvoiceController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _invoiceManager = new InvoiceManager(_unitOfWork, _mapper);
         }
 
         [HttpPost]
         public IActionResult CreateInvoiceForCustomer(int customerId, InvoiceModel invoiceModel)
         {
-            var invoice = _mapper.Map<Invoice>(invoiceModel);
-            invoice.Customer = _unitOfWork.Customers.Get(customerId);
-            _unitOfWork.Invoices.Add(invoice);
-            _unitOfWork.Complete();
+            _invoiceManager.CreateInvoiceForCustomer(customerId, invoiceModel);
             return NoContent();
         }
 
         [HttpGet]
         public IActionResult GetInvoices()
         {
-            var invoices = _unitOfWork.Invoices.GetAll();
-            var invoicesToReturn = _mapper.Map<IEnumerable<InvoiceModel>>(invoices);
-            return Ok(invoicesToReturn);
+            return Ok(_invoiceManager.GetInvoices());
         }
     }
 }

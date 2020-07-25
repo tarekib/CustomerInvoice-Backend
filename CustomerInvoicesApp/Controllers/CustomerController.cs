@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AutoMapper;
 using CustomerInvoicesApp.Data;
 using CustomerInvoicesApp.DTOs;
+using CustomerInvoicesApp.Managers;
 using CustomerInvoicesApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,43 +14,32 @@ namespace CustomerInvoicesApp.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-
         private readonly IMapper _mapper;
+        private readonly CustomerManger _customerManager;
 
         public CustomerController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _customerManager = new CustomerManger(_unitOfWork, _mapper);
         }
 
         [HttpGet]
         public IActionResult GetCustomers()
         {
-            var customers = _unitOfWork.Customers.GetAllCustomers();
-            var customersToReturn = _mapper.Map<IEnumerable<CustomerModel>>(customers);
-            return Ok(customersToReturn);
+            return Ok(_customerManager.GetCustomers());
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetCustomerById(int id)
+        public IActionResult GetSingleCustomer(int id)
         {
-            var customer = _unitOfWork.Customers.Get(id);
-            return Ok(customer);
+            return Ok(_customerManager.GetSingleCustomer(id));
         }
 
         [HttpPost]
-        public IActionResult AddCustomer()
+        public IActionResult AddCustomer(CustomerModel customerModel)
         {
-            _unitOfWork.Customers.Add(new Customer
-            {
-                FirstName = "Customer",
-                LastName = "A",
-                CreatedDate = DateTime.UtcNow,
-                City = "Beirut",
-                Country = "Lebanon"
-            });
-
-            _unitOfWork.Complete();
+            _customerManager.AddCustomer(customerModel);
             return NoContent();
         }
     }

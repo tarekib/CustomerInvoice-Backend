@@ -7,40 +7,50 @@ namespace CustomerInvoicesApp.Data
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         protected readonly DbContext Context;
+        protected DbSet<TEntity> dbSet;
 
         public Repository(DbContext context)
         {
             Context = context;
+            dbSet = Context.Set<TEntity>();
         }
 
         public void Add(TEntity entity)
         {
-            Context.Set<TEntity>().Add(entity);
+            dbSet.Add(entity);
         }
 
         public void AddRange(IEnumerable<TEntity> entities)
         {
-            Context.Set<TEntity>().AddRange(entities);
+            dbSet.AddRange(entities);
         }
 
         public TEntity Get(int id)
         {
-            return Context.Set<TEntity>().Find(id);
+            return dbSet.Find(id);
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public IEnumerable<TEntity> GetAll(string [] children = null)
         {
-            return Context.Set<TEntity>().ToList();
+            IQueryable<TEntity> query = dbSet;
+            if(children != null)
+            {
+                foreach (string entity in children)
+                {
+                    query = query.Include(entity);
+                }
+            }
+            return query.ToList();
         }
 
         public void Remove(TEntity entity)
         {
-            Context.Set<TEntity>().Remove(entity);
+            dbSet.Remove(entity);
         }
 
         public void RemoveRange(IEnumerable<TEntity> entities)
         {
-            Context.Set<TEntity>().RemoveRange(entities);
+            dbSet.RemoveRange(entities);
         }
     }
 }

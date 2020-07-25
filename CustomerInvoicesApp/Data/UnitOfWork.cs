@@ -7,15 +7,15 @@
         public UnitOfWork(DataContext context)
         {
             _context = context;
-            Customers = new CustomerRepository(_context);
-            Invoices = new InvoiceRepository(_context); 
+            CustomerRepository = new CustomerRepository(_context);
+            InvoiceRepository = new InvoiceRepository(_context); 
         }
 
-        public ICustomerRepository Customers { get; private set; }
+        public ICustomerRepository CustomerRepository { get; private set; }
       
-        public IInvoiceRepository Invoices { get; private set; }
+        public IInvoiceRepository InvoiceRepository { get; private set; }
 
-        public int Complete()
+        public int Save()
         {
             return _context.SaveChanges();
         }
