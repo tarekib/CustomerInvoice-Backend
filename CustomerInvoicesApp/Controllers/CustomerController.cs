@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 using CustomerInvoicesApp.Data;
 using CustomerInvoicesApp.DTOs;
 using CustomerInvoicesApp.Managers;
-using CustomerInvoicesApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CustomerInvoicesApp.Controllers

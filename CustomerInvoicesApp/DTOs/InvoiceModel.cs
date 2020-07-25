@@ -4,6 +4,8 @@ namespace CustomerInvoicesApp.DTOs
 {
     public class InvoiceModel
     {
+        public int Id { get; set; }
+
         public string InvoiceNumber { get; set; }
 
         public decimal Total { get; set; }
