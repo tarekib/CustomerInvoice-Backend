@@ -5,6 +5,6 @@ namespace CustomerInvoicesApp.Data
 {
     public interface ICustomerRepository : IRepository<Customer>
     {
-        IEnumerable<Customer> GetAllCustomers();
+        List<Customer> GetAllCustomers();
     }
 }

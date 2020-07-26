@@ -8,9 +8,10 @@ namespace CustomerInvoicesApp.Helpers
     {
         public AutoMapperProfiles()
         {
-            CreateMap<Customer, CustomerModel>();
-            CreateMap<Invoice, InvoiceModel>();
-            CreateMap<InvoiceModel, Invoice>();
+            CreateMap<Customer, CustomerDto>();
+            CreateMap<CustomerDto, Customer>();
+            CreateMap<Invoice, InvoiceDto>();
+            CreateMap<InvoiceDto, Invoice>();
         }
     }
 }

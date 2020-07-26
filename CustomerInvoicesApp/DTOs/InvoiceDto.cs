@@ -2,7 +2,7 @@
 
 namespace CustomerInvoicesApp.DTOs
 {
-    public class InvoiceModel
+    public class InvoiceDto
     {
         public int Id { get; set; }
 
@@ -14,7 +14,9 @@ namespace CustomerInvoicesApp.DTOs
 
         public int CustomerId { get; set; }
 
-        public InvoiceModel()
+        public string CustomerName { get; set; }
+
+        public InvoiceDto()
         {
             CreatedDate = DateTime.Now;
         }

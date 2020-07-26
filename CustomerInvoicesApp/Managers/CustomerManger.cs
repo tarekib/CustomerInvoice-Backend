@@ -17,25 +17,35 @@ namespace CustomerInvoicesApp.Managers
             _mapper = mapper;
         }
 
-        public IEnumerable<CustomerModel> GetCustomers()
+        public List<CustomerDto> GetCustomers()
         {
             var customers = _unitOfWork.CustomerRepository.GetAllCustomers();
-            var customersToReturn = _mapper.Map<IEnumerable<CustomerModel>>(customers);
+            if (null == customers) return null;
+            var customersToReturn = _mapper.Map<List<CustomerDto>>(customers);
             return customersToReturn;
         }
 
-        public CustomerModel GetSingleCustomer(int customerId)
+        public CustomerDto GetSingleCustomer(int customerId)
         {
             var customer = _unitOfWork.CustomerRepository.Get(customerId);
-            return _mapper.Map<CustomerModel>(customer);
+            if (null == customer) return null;
+            return _mapper.Map<CustomerDto>(customer);
         }
 
-        public void AddCustomer(CustomerModel customerModel)
+        public void AddCustomer(CustomerDto customerModel)
         {
             var customer = _mapper.Map<Customer>(customerModel);
             _unitOfWork.CustomerRepository.Add(customer);
             _unitOfWork.Save();
         }
 
+        public void DeleteCustomer(int customerId)
+        {
+            var customerEntity = _unitOfWork.CustomerRepository.Get(customerId);
+            customerEntity.IsRemoved = true;
+            _unitOfWork.CustomerRepository.Update(customerEntity);
+            _unitOfWork.Save();
+
+        }
     }
 }

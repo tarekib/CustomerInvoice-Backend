@@ -34,9 +34,16 @@ namespace CustomerInvoicesApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddCustomer(CustomerModel customerModel)
+        public IActionResult AddCustomer(CustomerDto customerModel)
         {
             _customerManager.AddCustomer(customerModel);
+            return NoContent();
+        }
+
+        [HttpDelete]
+        public IActionResult DeleteCustomer(int customerId)
+        {
+            _customerManager.DeleteCustomer(customerId);
             return NoContent();
         }
     }

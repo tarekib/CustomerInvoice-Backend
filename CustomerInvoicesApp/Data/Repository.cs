@@ -43,6 +43,11 @@ namespace CustomerInvoicesApp.Data
             return query.ToList();
         }
 
+        public void Update(TEntity entity)
+        {
+            dbSet.Update(entity);
+        }
+
         public void Remove(TEntity entity)
         {
             dbSet.Remove(entity);

@@ -17,6 +17,8 @@ namespace CustomerInvoicesApp.Models
 
         public string Country { get; set; }
 
+        public bool IsRemoved { get; set; }
+
         public ICollection<Invoice> Invoices { get; set; }
     }
 }

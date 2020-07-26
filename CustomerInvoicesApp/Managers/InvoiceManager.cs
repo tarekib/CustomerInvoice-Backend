@@ -3,6 +3,7 @@ using CustomerInvoicesApp.Data;
 using CustomerInvoicesApp.DTOs;
 using CustomerInvoicesApp.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CustomerInvoicesApp.Managers
 {
@@ -17,18 +18,23 @@ namespace CustomerInvoicesApp.Managers
             _mapper = mapper;
         }
 
-        public void CreateInvoiceForCustomer(int customerId, InvoiceModel invoiceModel)
+        public void CreateInvoiceForCustomer(int customerId, InvoiceDto invoiceModel)
         {
             var invoice = _mapper.Map<Invoice>(invoiceModel);
-            invoice.Customer = _unitOfWork.CustomerRepository.Get(customerId);
-            _unitOfWork.InvoiceRepository.Add(invoice);
-            _unitOfWork.Save();
+            var customer = _unitOfWork.CustomerRepository.Get(customerId);
+            if (customer != null)
+            {
+                invoice.Customer = customer;
+                _unitOfWork.InvoiceRepository.Add(invoice);
+                _unitOfWork.Save();
+            }
         }
 
-        public IEnumerable<InvoiceModel> GetInvoices()
+        public List<InvoiceDto> GetInvoices()
         {
-            var invoices = _unitOfWork.InvoiceRepository.GetAll();
-            return _mapper.Map<IEnumerable<InvoiceModel>>(invoices);
+            var invoices = _unitOfWork.InvoiceRepository.GetAllInvoices();
+            if (invoices == null || !invoices.Any()) return null;
+            return _mapper.Map<List<InvoiceDto>>(invoices);
         }
     }
 }

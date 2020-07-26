@@ -11,10 +11,9 @@ namespace CustomerInvoicesApp.Data
 
         }
 
-        public IEnumerable<Customer> GetAllCustomers()
+        public List<Customer> GetAllCustomers()
         {
-            var query = GetAll(new string[] { "Invoices" });
-            return query.ToList();
+           return GetAll(new string[] { "Invoices" }).Where(c => !c.IsRemoved).ToList();
         }
     }
 

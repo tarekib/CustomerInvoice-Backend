@@ -1,9 +1,10 @@
 ﻿using CustomerInvoicesApp.Models;
+using System;
 using System.Collections.Generic;
 
 namespace CustomerInvoicesApp.DTOs
 {
-    public class CustomerModel
+    public class CustomerDto
     {
         public int Id { get; set; }
 
@@ -15,6 +16,14 @@ namespace CustomerInvoicesApp.DTOs
 
         public string Country { get; set; }
 
-        public ICollection<Invoice> Invoices { get; set; }
+        public DateTime CreatedDate { get; set; }
+
+
+        public ICollection<InvoiceDto> Invoices { get; set; }
+
+        public CustomerDto()
+        {
+            CreatedDate = DateTime.UtcNow;
+        }
     }
 }

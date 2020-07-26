@@ -13,6 +13,8 @@ namespace CustomerInvoicesApp.Data
 
         void AddRange(IEnumerable<TEntity> entities);
 
+        void Update(TEntity entity);
+
         void Remove(TEntity entity);
 
         void RemoveRange(IEnumerable<TEntity> entities);
