@@ -12,6 +12,8 @@ namespace CustomerInvoicesApp.DTOs
 
         public string LastName { get; set; }
 
+        public string FullName => GetFullName();
+
         public string City { get; set; }
 
         public string Country { get; set; }
@@ -24,6 +26,11 @@ namespace CustomerInvoicesApp.DTOs
         public CustomerDto()
         {
             CreatedDate = DateTime.UtcNow;
+        }
+
+        private string GetFullName()
+        {
+            return $"{FirstName} {LastName}";
         }
     }
 }
