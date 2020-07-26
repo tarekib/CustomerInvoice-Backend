@@ -15,7 +15,7 @@ namespace CustomerInvoicesApp.Data
 
         public List<Invoice> GetAllInvoices()
         {
-            return GetAll().Where(i => i.Customer != null &&!i.Customer.IsRemoved).ToList();
+            return GetAll(new string[] {"Customer"}).Where(i => i.Customer != null && !i.Customer.IsRemoved).ToList();
         }
     }
 }

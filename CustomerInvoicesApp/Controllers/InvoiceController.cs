@@ -22,9 +22,9 @@ namespace CustomerInvoicesApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateInvoiceForCustomer(int customerId, InvoiceDto invoiceModel)
+        public IActionResult CreateInvoiceForCustomer(InvoiceDto invoiceModel)
         {
-            _invoiceManager.CreateInvoiceForCustomer(customerId, invoiceModel);
+            _invoiceManager.CreateInvoiceForCustomer(invoiceModel);
             return NoContent();
         }
 

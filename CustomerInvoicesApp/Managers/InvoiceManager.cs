@@ -18,10 +18,10 @@ namespace CustomerInvoicesApp.Managers
             _mapper = mapper;
         }
 
-        public void CreateInvoiceForCustomer(int customerId, InvoiceDto invoiceModel)
+        public void CreateInvoiceForCustomer(InvoiceDto invoiceModel)
         {
             var invoice = _mapper.Map<Invoice>(invoiceModel);
-            var customer = _unitOfWork.CustomerRepository.Get(customerId);
+            var customer = _unitOfWork.CustomerRepository.Get(invoiceModel.CustomerId);
             if (customer != null)
             {
                 invoice.Customer = customer;
@@ -34,7 +34,17 @@ namespace CustomerInvoicesApp.Managers
         {
             var invoices = _unitOfWork.InvoiceRepository.GetAllInvoices();
             if (invoices == null || !invoices.Any()) return null;
-            return _mapper.Map<List<InvoiceDto>>(invoices);
+            var invoicesDtos = new List<InvoiceDto>();
+
+            foreach (var invoice in invoices)
+            {
+                var invoiceDto = _mapper.Map<InvoiceDto>(invoice);
+                invoiceDto.FirstName = invoice.Customer.FirstName;
+                invoiceDto.LastName = invoice.Customer.LastName;
+                invoicesDtos.Add(invoiceDto);
+            }
+
+            return invoicesDtos;
         }
     }
 }
